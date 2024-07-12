@@ -2,7 +2,9 @@
   "name": "@dotmh/smart-builder",
   "version": "1.0.0",
   "description": "The basic typescript project setup for DotMH",
-  "main": "index.js",
+  "main": "bin/index.js",
+  "bin": "bin/index.js",
+  "types": "bin/index.d.ts",
   "type": "module",
   "prettier": "@dotmh/prettier-config",
   "scripts": {

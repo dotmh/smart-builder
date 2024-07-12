@@ -1,6 +1,6 @@
 ![DotMH](https://github.com/dotmh/dotmh/raw/master/logo.png)
 
-# DotMH Typescript Template
+# DotMH Smart Builder
 
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
@@ -14,69 +14,40 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=for-the-badge&)](https://opensource.org/licenses/Apache-2.0)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?style=for-the-badge&)](code_of_conduct.md)
 
+**WARNING**
+**This project is pre-release and so may contain bugs or not work as expected. It is also likely to change**
+
 ## Introduction
 
-This is a template project for me to build my other projects from without needing to boiler plate
-so much. It assumes that you want to make a Typescript project, whether for the browser or node.
+A tool to build Monorepos based on the dependency graph. This allows you to build the packages in the right order.
 
-### Getting Started:
+It will read the pnpm-workspace.yaml file to get the list of packages and determine the order to build them in
+It will then run the build command set up in the BUILD_SCRIPT variable
+It is designed to **ONLY** Work with pnpm workspaces not npm or yarn at the moment
 
-1. Create a new repo from this
-   [template in github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
-2. Duplicate the `hello` example in [libs/hello](/libs/hello) and delete the original
-3. Connect to a new [Codespace](https://docs.github.com/en/codespaces/getting-started/quickstart)
-4. Start building out your project
+## Running
 
-Optional
+**WARNING**
+**This project is pre-release and so may contain bugs or not work as expected. It is also likely to change**
 
-- Add new packages to [pnpm-workspace.yaml](pnpm-workspace.yaml) such as `apps` , `bins` etc.
+```bash
+$ pnpm add @dotmh/smart-builder
+$ pnpm exec smart-builder
+```
 
-## Technology
+It needs to run from the root project folder (that is the folder that contains `pnpm-workspaces.yaml` or `pnpm-lock.yaml`)
 
-- [Typescript](https://www.typescriptlang.org/) language
-- [PNPM](https://pnpm.io/) for package managing, also set up as a workspace
-- Tests are been done on the built in [node test runner](https://nodejs.org/docs/latest-v18.x/api/test.html)
-- CI / CD is been handled by [github actions](https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs)
-- [Github Codespaces](https://github.com/features/codespaces) / [Devcontainers](https://containers.dev)
-  the repo supports devcontainers to allow easier development where ever they are supported, including
-  using Github Codespaces.
+### Configuration
 
-## Style
+This uses environment variables to configure its behaviour.
 
-The repo is designed to enforce code styling rules across the repo. It uses the DotMH
-[eslint](https://github.com/dotmh/linting/blob/main/packages/eslint-config-ts/index.js) and
-[prettier](https://github.com/dotmh/linting/blob/main/packages/prettier-config/index.json)
-configs by default. It also enforces commit styles with [commit lint](https://commitlint.js.org/) which
-will enforce [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+- `SKIP_BUILD` - set to `yes` to enable - will allow you to see what it is going to build and in what order
+- `DEBUG` - set to `yes` to enable - will allow you to see more logging
 
-## Safety
+## Ignoring
 
-The repo makes use of [secret lint](https://github.com/secretlint/secretlint) to attempt to guard against secrets between accidentally pushed to git. This however should not be relied on!
-
-**Don't commit secrets**
-
-## CI
-
-Makes use of Github actions, by default this will [test and lint the code](.github/workflows/standard-actions.yml)
-
-## Git
-
-When you make a commit the following will happen **BEFORE** the commit is added to git.
-
-1. Check your git message conforms to conventional commits - **BLOCKING**
-2. Checks you haven't commit any secrets - **BLOCKING**
-
-- You can edit 1. in [.husky/commit-msg](.husky/commit-msg)
-- You can edit 2. by editing the script `githook:precommit` the root [package.json](package.json#L17)
-
-When you push code up to a remote repository the following will happen _BEFORE_ the code is pushed
-
-1. Checks you haven't commit any secrets - **BLOCKING**
-2. Run the code through eslint - **BLOCKING**
-3. Run the code through prettier - **BLOCKING**
-4. Run the tests on all packages in the workspace - **BLOCKING**
-
-This can be changed by changing the pnpm script `githook:prepush` in the root [package.json](package.json#L16)
+To ignore a package from the build list add it to the .sbignore file at the root of the project
+Add the package names to ignore on a new line for each.
 
 ## License
 
