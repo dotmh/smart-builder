@@ -25,6 +25,7 @@ import { glob } from 'glob';
 import { exec } from 'node:child_process';
 import { EOL } from 'node:os';
 import { cwd } from 'node:process';
+import chalk from 'chalk';
 const WORKSPACE = 'pnpm-workspace.yaml';
 const PACKAGE_MANIFEST = 'package.json';
 const BUILD_SCRIPT = 'pnpm --filter PACKAGE run build';
@@ -157,12 +158,13 @@ const buildBuildList = async (buildList) => {
         await build(buildItem);
     }
 };
+const pad = (string) => ` ${string} `;
 const main = async () => {
     const packageManager = await whichPackageManager();
     if (packageManager !== 'pnpm') {
         throw new Error(`ONLY PNPM is support ${packageManager} found`);
     }
-    console.log('SEARCHING for packages using', packageManager);
+    console.log('SEARCHING for packages using', chalk.bgGreenBright.bold(pad(packageManager.toUpperCase())));
     const packages = await getPackages();
     const ignore = await getSmartBuilderIgnoreFile();
     const list = await Promise.all(packages.map(getAllPackagesUnderAPackage));
@@ -180,7 +182,7 @@ const main = async () => {
     console.log('DONE!');
 };
 main().catch((error) => {
-    console.log('Build failed:', error.message ?? 'Unknown error');
+    console.log(chalk.redBright.bold('Build failed:'), chalk.bgRedBright(pad(error.message ?? 'Unknown error')));
     if (DEBUG) {
         console.error(error);
     }
