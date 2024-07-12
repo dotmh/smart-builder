@@ -16,7 +16,15 @@ jobs:
           node-version: '20.14.0'
           cache: 'pnpm'
       - run: pnpm install
+      - name: Set publishing config
+        run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Lint
         run: pnpm lint
       - name: Test
         run: pnpm test
+      - name: Build
+        run: pnpm build
+      - name: Publish
+        run: pnpm publish --no-git-checks
