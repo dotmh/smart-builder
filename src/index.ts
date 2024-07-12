@@ -43,9 +43,21 @@ const PACKAGE_MANIFEST = 'package.json';
 const BUILD_SCRIPT = 'pnpm --filter PACKAGE run build';
 const SKIP_BUILD = process.env['SKIP_BUILD'] === 'yes';
 const DEBUG = process.env['DEBUG'] === 'yes';
-const SMART_BUKLDER_IGNORE = '.sbignore';
+const SMART_BUILDER_IGNORE = '.sbignore';
 
-const lockFiles: Record<PackageManager, string> = {
+const LOGO = `  ___                _      
+ / __|_ __  __ _ _ _| |_    
+ \\__ \\ '  \\/ _\` | '_|  _|   
+ |___/_|_|_\\__,_|_|  \\__|   
+ | _ )_  _(_) |__| |___ _ _ 
+ | _ \\ || | | / _\` / -_) '_|
+ |___/\\_,_|_|_\\__,_\\___|_|  
+
+ By DotMH (C) ${new Date().getFullYear()}
+
+ `;
+
+const LOCK_FILES: Record<PackageManager, string> = {
   pnpm: 'pnpm-lock.yaml',
   yarn: 'yarn.lock',
   npm: 'package-lock.json',
@@ -62,7 +74,7 @@ const exists = async (file: string) => {
 };
 
 const whichPackageManager = async (): Promise<PackageManager> => {
-  const check = Object.entries(lockFiles);
+  const check = Object.entries(LOCK_FILES);
   const found: PackageManager[] = [];
 
   for (const checking of check) {
@@ -86,7 +98,7 @@ const whichPackageManager = async (): Promise<PackageManager> => {
 
 const getSmartBuilderIgnoreFile = async (): Promise<string[]> => {
   try {
-    const raw = await readFile(join(cwd(), SMART_BUKLDER_IGNORE), 'utf-8');
+    const raw = await readFile(join(cwd(), SMART_BUILDER_IGNORE), 'utf-8');
     return raw.split(EOL).map((str) => str.trim());
   } catch {
     return [];
@@ -95,7 +107,6 @@ const getSmartBuilderIgnoreFile = async (): Promise<string[]> => {
 
 const loadWorkspace = async () => {
   try {
-    console.log(process.cwd());
     const raw = await readFile(join(cwd(), WORKSPACE), 'utf-8');
     return yaml.parse(raw);
   } catch {
@@ -187,7 +198,7 @@ const build = (usePackage: string): Promise<string> => {
 
 const buildBuildList = async (buildList: string[]) => {
   for (const buildItem of buildList) {
-    console.log(`Building ${buildItem}`);
+    console.log(chalk.yellowBright(`Building ${buildItem}`));
     await build(buildItem);
   }
 };
@@ -195,6 +206,8 @@ const buildBuildList = async (buildList: string[]) => {
 const pad = (string: string): string => ` ${string} `;
 
 const main = async () => {
+  console.log(chalk.greenBright.bold(LOGO));
+
   const packageManager = await whichPackageManager();
 
   if (packageManager !== 'pnpm') {
@@ -215,15 +228,18 @@ const main = async () => {
   );
   const buildOrder = filterDependancies(getBuildOrder(localOnly), ignore);
 
-  console.log('About to build the following package');
-  console.log(buildOrder.join(EOL));
+  console.log(
+    chalk.bgGreenBright.bold(pad('About to build the following package'))
+  );
+
+  console.log(chalk.greenBright(buildOrder.join(EOL)));
 
   if (!SKIP_BUILD) {
     await buildBuildList(buildOrder);
   } else {
     console.log('Skip build is set! Skipping');
   }
-  console.log('DONE!');
+  console.log(chalk.bgGreenBright(pad('DONE!')));
 };
 
 main().catch((error) => {
