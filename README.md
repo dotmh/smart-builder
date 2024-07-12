@@ -14,8 +14,8 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=for-the-badge&)](https://opensource.org/licenses/Apache-2.0)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?style=for-the-badge&)](code_of_conduct.md)
 
-**WARNING**
-**This project is pre-release and so may contain bugs or not work as expected. It is also likely to change**
+> [!WARNING]
+> This project is pre-release and so may contain bugs or not work as expected. It is also likely to change
 
 ## Introduction
 
@@ -27,8 +27,8 @@ It is designed to **ONLY** Work with pnpm workspaces not npm or yarn at the mome
 
 ## Running
 
-**WARNING**
-**This project is pre-release and so may contain bugs or not work as expected. It is also likely to change**
+> [!WARNING]
+> This project is pre-release and so may contain bugs or not work as expected. It is also likely to change
 
 ```bash
 $ pnpm add @dotmh/smart-builder
