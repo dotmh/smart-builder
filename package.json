@@ -1,0 +1,40 @@
+{
+  "name": "@dotmh/ts-base",
+  "version": "1.0.0",
+  "description": "The basic typescript project setup for DotMH",
+  "main": "index.js",
+  "type": "module",
+  "prettier": "@dotmh/prettier-config",
+  "scripts": {
+    "test": "pnpm run -r test",
+    "prepare": "husky",
+    "lint": "eslint . --fix --ext .ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:check": "eslint . --ext .ts --fix-dry-run",
+    "lint:secrets": "secretlint \"**/*\"",
+    "githook:prepush": "pnpm run lint:secrets && pnpm run lint:check && pnpm run format:check && pnpm run test",
+    "githook:precommit": "pnpm run lint:secrets"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@dotmh/eslint-config-ts": "^1.0.0",
+    "@dotmh/prettier-config": "^1.0.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^8.2.4",
+    "@types/node": "20.14.9",
+    "eslint": "^8.57.0",
+    "husky": "^9.0.11",
+    "prettier": "^3.3.2",
+    "secretlint": "^8.2.4",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.2"
+  },
+  "engines": {
+    "node": "^20.14.0",
+    "pnpm": "^9.4.0"
+  }
+}

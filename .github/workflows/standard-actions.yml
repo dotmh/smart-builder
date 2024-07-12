@@ -1,0 +1,22 @@
+name: DotMH Standard Tyescript Actions
+run-name: '${{ github.actor }} - ${{ github.workflow }} - ${{ github.run_number }}'
+on: [push]
+
+jobs:
+  TestAndLint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: '9'
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.14.0'
+          cache: 'pnpm'
+      - run: pnpm install
+      - name: Lint
+        run: pnpm lint
+      - name: Test
+        run: pnpm test

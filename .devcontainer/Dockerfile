@@ -1,0 +1,1 @@
+FROM ghcr.io/dotmh/devcontainer-rocky-cloud-node:latest
