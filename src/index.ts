@@ -223,9 +223,7 @@ const main = async () => {
   const ignore = await getSmartBuilderIgnoreFile();
   const list = await Promise.all(packages.map(getAllPackagesUnderAPackage));
   const allPackages = await Promise.all(list.flat().map(getPackageDeps));
-  const localOnly = allPackages.map((dependencies) =>
-    convetToLocalOnly(dependencies)
-  );
+  const localOnly = allPackages.map(convetToLocalOnly);
   const buildOrder = filterDependancies(getBuildOrder(localOnly), ignore);
 
   console.log(
