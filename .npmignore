@@ -1,0 +1,10 @@
+.devcontainer
+.github
+.husky
+.eslintignore
+.eslintrc
+.nvmrc
+.prettierignore
+.secretlintrc.json
+commitlint.config.js
+tsconfig.json
