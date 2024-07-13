@@ -14,6 +14,8 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=for-the-badge&)](https://opensource.org/licenses/Apache-2.0)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?style=for-the-badge&)](code_of_conduct.md)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=dotmh_smart-builder)](https://sonarcloud.io/summary/new_code?id=dotmh_smart-builder)
+
 > [!WARNING]
 > This project is pre-release and so may contain bugs or not work as expected. It is also likely to change
 
